@@ -1,15 +1,14 @@
-version: 1.8.5
+version: 1.8.6
 files:
-  - url: Digital-Toolbox-Setup-1.8.5.exe
-    sha512: MJC3QfHqyICbuJ7tV6QUFQeLw78JsTgDeW3d0xtX4ZQ9ozRX2O3esX4q169CQfz+UkJzPExi3IX1HHecJvVaQg==
-    size: 90441342
-path: Digital-Toolbox-Setup-1.8.5.exe
-sha512: MJC3QfHqyICbuJ7tV6QUFQeLw78JsTgDeW3d0xtX4ZQ9ozRX2O3esX4q169CQfz+UkJzPExi3IX1HHecJvVaQg==
+  - url: Digital-Toolbox-Setup-1.8.6.exe
+    sha512: cy/7jGwgVOOAg99YhqyO1JS1GhsB6Vgxz/GJc9hD28S+dmhpUY3jgPOLpI6b1VUPyLm1Lxtrnx1PCLC6YS+vzg==
+    size: 90446719
+path: Digital-Toolbox-Setup-1.8.6.exe
+sha512: cy/7jGwgVOOAg99YhqyO1JS1GhsB6Vgxz/GJc9hD28S+dmhpUY3jgPOLpI6b1VUPyLm1Lxtrnx1PCLC6YS+vzg==
 releaseNotes: |
-  - Automatic updates: new versions download by themselves and you only click "Restart & update"
-  - Open any file (PDF, picture, PSD, CDR, PLT, DXF), change its width × height in the status bar and Export as JPG, PNG, PDF, SVG, WEBP, DXF or PLT
-  - Size lock in the status bar: change width and height together (locked) or separately (unlocked), in size or %
-  - Multiple Copies: new toolbar - Flip horizontal / vertical, Rotate sheet, Resize all images by %
-  - Print: Mirror (reverse) image and Reverse page order
-  - A cut file is no longer needed to export from Multiple Copies
-releaseDate: '2026-11-03T15:22:42.499Z'
+  - 15-day free trial for new users; after it the free version keeps working (PDF reader, print, merge, split, sign)
+  - Buy licence from inside the app (online payment) - the full version unlocks by itself
+  - Multiple Copies: Detect button finds the cutting plotter on this PC and sets marks and margins for it (SkyCut, Graphtec, Roland, Summa, Silhouette, Mimaki)
+  - Help on WhatsApp: 99332 11777
+  - Home page: More from Digital Arts
+releaseDate: '2026-11-03T18:32:19.926Z'
