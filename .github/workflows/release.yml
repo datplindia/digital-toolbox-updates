@@ -1,0 +1,30 @@
+# Every push that changes latest.yml publishes a GitHub Release with the installer, so there is
+# one download link that never changes:
+#   https://github.com/datplindia/digital-toolbox-updates/releases/latest/download/Digital-Toolbox-Setup.exe
+name: Publish release
+on:
+  push:
+    branches: [main]
+    paths: ["latest.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { lfs: false }
+      - name: Read version
+        id: v
+        run: echo "version=$(grep -m1 '^version:' latest.yml | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          V: ${{ steps.v.outputs.version }}
+        run: |
+          cp "Digital-Toolbox-Setup-$V.exe" Digital-Toolbox-Setup.exe
+          notes=$(sed -n '/^releaseNotes:/,/^releaseDate:/p' latest.yml | sed '1d;$d' | sed 's/^  //')
+          gh release delete "v$V" --yes --cleanup-tag 2>/dev/null || true
+          gh release create "v$V" --title "Digital Toolbox $V" --notes "$notes" --latest \
+            Digital-Toolbox-Setup.exe "Digital-Toolbox-Setup-$V.exe" "Digital-Toolbox-Setup-$V.exe.blockmap" latest.yml
