@@ -1,15 +1,10 @@
-version: 1.8.6
+version: 1.8.7
 files:
-  - url: Digital-Toolbox-Setup-1.8.6.exe
-    sha512: cy/7jGwgVOOAg99YhqyO1JS1GhsB6Vgxz/GJc9hD28S+dmhpUY3jgPOLpI6b1VUPyLm1Lxtrnx1PCLC6YS+vzg==
-    size: 90446719
-path: Digital-Toolbox-Setup-1.8.6.exe
-sha512: cy/7jGwgVOOAg99YhqyO1JS1GhsB6Vgxz/GJc9hD28S+dmhpUY3jgPOLpI6b1VUPyLm1Lxtrnx1PCLC6YS+vzg==
+  - url: Digital-Toolbox-Setup-1.8.7.exe
+    sha512: HggngQ+Zq3kVt98kGEM9+e4k7fau9PxyYiTxSCqh2rLXuSEUtJpyzqZs9DVGVPV+a8y6v24Vk71laXNSrOCC0Q==
+    size: 90445678
+path: Digital-Toolbox-Setup-1.8.7.exe
+sha512: HggngQ+Zq3kVt98kGEM9+e4k7fau9PxyYiTxSCqh2rLXuSEUtJpyzqZs9DVGVPV+a8y6v24Vk71laXNSrOCC0Q==
 releaseNotes: |
-  - 15-day free trial for new users; after it the free version keeps working (PDF reader, print, merge, split, sign)
-  - Buy licence from inside the app (online payment) - the full version unlocks by itself
-  - Multiple Copies: Detect button finds the cutting plotter on this PC and sets marks and margins for it (SkyCut, Graphtec, Roland, Summa, Silhouette, Mimaki)
-  - Help on WhatsApp: 99332 11777
-  - Home page: More from Digital Arts
-releaseDate: '2026-11-03T18:32:19.926Z'
-# download page: https://apps.datpl.com/toolbox
+  - Correct WhatsApp help number: 9933211177
+releaseDate: '2026-11-03T19:33:41.894Z'
