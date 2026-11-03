@@ -1,0 +1,15 @@
+version: 1.8.5
+files:
+  - url: Digital-Toolbox-Setup-1.8.5.exe
+    sha512: MJC3QfHqyICbuJ7tV6QUFQeLw78JsTgDeW3d0xtX4ZQ9ozRX2O3esX4q169CQfz+UkJzPExi3IX1HHecJvVaQg==
+    size: 90441342
+path: Digital-Toolbox-Setup-1.8.5.exe
+sha512: MJC3QfHqyICbuJ7tV6QUFQeLw78JsTgDeW3d0xtX4ZQ9ozRX2O3esX4q169CQfz+UkJzPExi3IX1HHecJvVaQg==
+releaseNotes: |
+  - Automatic updates: new versions download by themselves and you only click "Restart & update"
+  - Open any file (PDF, picture, PSD, CDR, PLT, DXF), change its width × height in the status bar and Export as JPG, PNG, PDF, SVG, WEBP, DXF or PLT
+  - Size lock in the status bar: change width and height together (locked) or separately (unlocked), in size or %
+  - Multiple Copies: new toolbar - Flip horizontal / vertical, Rotate sheet, Resize all images by %
+  - Print: Mirror (reverse) image and Reverse page order
+  - A cut file is no longer needed to export from Multiple Copies
+releaseDate: '2026-11-03T15:22:42.499Z'
