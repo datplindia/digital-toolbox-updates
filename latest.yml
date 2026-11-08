@@ -6,6 +6,6 @@ files:
 path: Digital-Toolbox-Setup-1.9.4.exe
 sha512: UbiTUIKk2IUErFOji2mD5L78m4uMkzn3vPTOScvSe92KgwHoie6bxcRnPBXOlgvFovtwnu1VOSRE6UaOi6dX4g==
 releaseNotes: |
-  - "More from Digital Arts" now shows our software from the Digital Arts catalog (Battery Guard, Lanyard Roll Print …)
-  - "View & Download" opens the software page with screenshots, download, installation guide and features
+  - Small improvements and fixes
+  - The app now sends an anonymous usage count once a day (no name, number or file) so we know how many computers use it
 releaseDate: '2026-11-08T17:14:51.252Z'
