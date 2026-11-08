@@ -1,6 +1,6 @@
-# Battery Guard v1.5 – by Digital Arts
+# Desktop PC Battery Guard – by Digital Arts
 
-लैपटॉप बैटरी की उम्र बढ़ाने वाला मुफ़्त Windows ऐप। *Made with ♥ in Andaman.*
+लैपटॉप बैटरी की उम्र बढ़ाने वाला मुफ़्त Windows ऐप (पहले इसका नाम Battery Guard था)। *Made with ♥ in Andaman.*
 
 A free Windows app that reminds you to unplug the charger at 80% and plug it in at 20%, so your laptop battery lasts longer.
 
@@ -39,6 +39,10 @@ Windows 11 पर ट्रे आइकन हमेशा दिखे, इस
 ## पुराने वर्ज़न (v1.3 या उससे पहले) वालों के लिए
 
 अपने-आप अपडेट की सुविधा v1.4 से शुरू हुई है। पुराने वर्ज़न वाले एक बार ऊपर के लिंक से नई फ़ाइल डाउनलोड करके पुरानी फ़ाइल की जगह रख दें। उसके बाद अपडेट अपने-आप आएँगे।
+
+## मोबाइल के लिए / For phones
+
+Android फ़ोन के लिए अलग ऐप है: **[Mobile Battery Guard](../mobile-battery-guard/)**
 
 ## अपने बिज़नेस के लिए सॉफ्टवेयर चाहिए? / Need software for your business?
 
