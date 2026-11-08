@@ -1,8 +1,8 @@
 {
-  "version": "1.4.0",
-  "url": "https://raw.githubusercontent.com/datplindia/digital-toolbox-updates/main/battery-guard/releases/BatteryGuard-1.4.0.exe",
-  "sha256": "519959360da9ffb9c3c14541afbc97e1a980858e3779e966c5b80e84b3ca398e",
+  "version": "1.5.0",
+  "url": "https://raw.githubusercontent.com/datplindia/digital-toolbox-updates/main/battery-guard/releases/BatteryGuard-1.5.0.exe",
+  "sha256": "3d8b4fac879cbcffa6c6cfb375cc0cd8e2fdd40551aed91ec8ff35d29af1cc87",
   "page": "https://github.com/datplindia/digital-toolbox-updates/tree/main/battery-guard",
-  "notes_hi": "• पैनल अब दाईं तरफ़ टास्कबार के ऊपर खुलता है\n• Windows लॉगिन के साथ शुरू करने का ऑन/ऑफ़ स्विच\n• नया वर्ज़न अपने-आप जाँचने और अपडेट करने की सुविधा",
-  "notes_en": "• Panel now opens docked on the right, above the taskbar\n• On/off switch to start with Windows login\n• Automatic update check and one-click update"
+  "notes_hi": "• नीचे के कार्ड में Digital Arts के सभी सॉफ्टवेयर बारी-बारी दिखते हैं\n• सेटिंग्स में अपडेट वाली लाइन अब पूरी दिखती है",
+  "notes_en": "• The card at the bottom now shows all Digital Arts software, one after another\n• The update setting's description now shows in full"
 }
