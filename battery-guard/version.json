@@ -1,0 +1,8 @@
+{
+  "version": "1.4.0",
+  "url": "https://raw.githubusercontent.com/datplindia/digital-toolbox-updates/main/battery-guard/releases/BatteryGuard-1.4.0.exe",
+  "sha256": "519959360da9ffb9c3c14541afbc97e1a980858e3779e966c5b80e84b3ca398e",
+  "page": "https://github.com/datplindia/digital-toolbox-updates/tree/main/battery-guard",
+  "notes_hi": "• पैनल अब दाईं तरफ़ टास्कबार के ऊपर खुलता है\n• Windows लॉगिन के साथ शुरू करने का ऑन/ऑफ़ स्विच\n• नया वर्ज़न अपने-आप जाँचने और अपडेट करने की सुविधा",
+  "notes_en": "• Panel now opens docked on the right, above the taskbar\n• On/off switch to start with Windows login\n• Automatic update check and one-click update"
+}
