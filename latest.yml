@@ -1,11 +1,11 @@
-version: 1.9.0
+version: 1.9.1
 files:
-  - url: Digital-Toolbox-Setup-1.9.0.exe
-    sha512: 1cE6JAL439QjO9t3ZFfg7p+mUQXoG3GC7tVPLMier/ems0s22C2Bj984SUNVoEvjm7aTW0EAyZ57hIsqHUM16g==
-    size: 90447758
-path: Digital-Toolbox-Setup-1.9.0.exe
-sha512: 1cE6JAL439QjO9t3ZFfg7p+mUQXoG3GC7tVPLMier/ems0s22C2Bj984SUNVoEvjm7aTW0EAyZ57hIsqHUM16g==
+  - url: Digital-Toolbox-Setup-1.9.1.exe
+    sha512: MVoNdK2VeMN4U4Qt/iMAi69uKMiaNz8+csYyzD9G+Nd6BLltwz79OGwwE1eK3KgPWQnbVzGJpHyEokkyHj6D9A==
+    size: 90454908
+path: Digital-Toolbox-Setup-1.9.1.exe
+sha512: MVoNdK2VeMN4U4Qt/iMAi69uKMiaNz8+csYyzD9G+Nd6BLltwz79OGwwE1eK3KgPWQnbVzGJpHyEokkyHj6D9A==
 releaseNotes: |
-  - CorelDRAW (CDR) files open bigger and sharper (5x more pixels, smoothed)
-  - The yellow "Low-quality preview" message and the Inkscape buttons are removed
-releaseDate: '2026-11-08T02:09:06.100Z'
+  - New: Edit PDF (button "Edit" in the reader): change text, add text (Hindi too), white-out, highlight, box, circle, line, arrow and pen
+  - The edited PDF is saved as a new file "(edited).pdf", the original stays as it was
+releaseDate: '2026-11-08T02:49:45.626Z'
