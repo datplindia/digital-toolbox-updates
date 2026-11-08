@@ -1,4 +1,4 @@
-# Mobile Battery Guard v1.0.1 – by Digital Arts
+# Mobile Battery Guard v1.1 – by Digital Arts
 
 फ़ोन की बैटरी की उम्र बढ़ाने वाला मुफ़्त Android ऐप। *Made with ♥ in Andaman.*
 
@@ -6,7 +6,7 @@ A free Android app that reminds you to unplug the charger at 80% and plug it in 
 
 ## ⬇️ डाउनलोड / Download
 
-**[MobileBatteryGuard.apk डाउनलोड करें](https://github.com/datplindia/digital-toolbox-updates/raw/main/mobile-battery-guard/MobileBatteryGuard.apk)**: Android 7.0 या नया फ़ोन, लगभग 110 KB।
+**[MobileBatteryGuard.apk डाउनलोड करें](https://github.com/datplindia/digital-toolbox-updates/raw/main/mobile-battery-guard/MobileBatteryGuard.apk)**: Android 7.0 या नया फ़ोन, लगभग 125 KB।
 
 ## फ़ीचर / Features
 
@@ -15,7 +15,15 @@ A free Android app that reminds you to unplug the charger at 80% and plug it in 
 - अलार्म अनदेखा करें तो कुछ मिनट बाद फिर याद दिलाता है। "इस बार याद न दिलाएँ" और "1 घंटे के लिए रोकें" के विकल्प भी हैं।
 - नोटिफ़िकेशन बार में बैटरी % हमेशा दिखता है, और फ़ोन चालू होते ही ऐप अपने-आप शुरू हो जाता है।
 - बैटरी हेल्थ (जहाँ फ़ोन बताता है): क्षमता, तापमान, वोल्टेज, करंट, चार्ज साइकल।
+- **नया (v1.1):** अलार्म बजते ही किसी भी ऐप के ऊपर बड़ा **"बंद करें"** बटन; लॉक स्क्रीन पर पूरी स्क्रीन अलार्म, बिना अनलॉक किए बंद करें।
+- **नया (v1.1):** नया version आने पर नोटिफ़िकेशन; दबाकर update करें, settings बनी रहती हैं।
 - **हिंदी / English** टॉगल।
+
+## निजता / Privacy
+
+ऐप दिन में एक बार सिर्फ़ एक गुमनाम गिनती भेजता है: एक random ID, ऐप और Android का version, फ़ोन का मॉडल और भाषा, ताकि पता चले ऐप कितने फ़ोन में चल रहा है। नाम, नंबर, contacts या लोकेशन कभी नहीं भेजे जाते। Settings में इसे बंद कर सकते हैं।
+
+Once a day the app sends only an anonymous count (random ID, app and Android version, phone model, language). No name, number, contacts or location. You can turn it off in Settings.
 
 ## इंस्टॉल कैसे करें / How to install
 
