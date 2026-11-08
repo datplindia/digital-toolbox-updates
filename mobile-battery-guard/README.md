@@ -1,4 +1,4 @@
-# Mobile Battery Guard v1.1 – by Digital Arts
+# Mobile Battery Guard v1.1.1 – by Digital Arts
 
 फ़ोन की बैटरी की उम्र बढ़ाने वाला मुफ़्त Android ऐप। *Made with ♥ in Andaman.*
 
@@ -21,9 +21,9 @@ A free Android app that reminds you to unplug the charger at 80% and plug it in 
 
 ## निजता / Privacy
 
-ऐप दिन में एक बार सिर्फ़ एक गुमनाम गिनती भेजता है: एक random ID, ऐप और Android का version, फ़ोन का मॉडल और भाषा, ताकि पता चले ऐप कितने फ़ोन में चल रहा है। नाम, नंबर, contacts या लोकेशन कभी नहीं भेजे जाते। Settings में इसे बंद कर सकते हैं।
+ऐप दिन में एक बार सिर्फ़ एक गुमनाम गिनती भेजता है: एक random ID, ऐप और Android का version, फ़ोन का मॉडल और भाषा, ताकि पता चले ऐप कितने फ़ोन में चल रहा है। नाम, नंबर, contacts या लोकेशन कभी नहीं भेजे जाते।
 
-Once a day the app sends only an anonymous count (random ID, app and Android version, phone model, language). No name, number, contacts or location. You can turn it off in Settings.
+Once a day the app sends only an anonymous count (random ID, app and Android version, phone model, language). No name, number, contacts or location.
 
 ## इंस्टॉल कैसे करें / How to install
 

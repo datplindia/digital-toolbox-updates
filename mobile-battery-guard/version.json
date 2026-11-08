@@ -1,9 +1,9 @@
 {
-  "version": "1.1",
-  "versionCode": 3,
-  "url": "https://github.com/datplindia/digital-toolbox-updates/raw/main/mobile-battery-guard/releases/MobileBatteryGuard-1.1.apk",
-  "sha256": "d69f34d01b6e3a73acbd7d69e7bbcf0cabedc795d780d7970ce127db814684ff",
+  "version": "1.1.1",
+  "versionCode": 4,
+  "url": "https://github.com/datplindia/digital-toolbox-updates/raw/main/mobile-battery-guard/releases/MobileBatteryGuard-1.1.1.apk",
+  "sha256": "6d270e227e806f8588a53619099e131c6b083d4371850211bd60cc4ff95f78a5",
   "page": "https://apps.datpl.com/software/?s=mobile-battery-guard",
-  "notes_hi": "नया: अलार्म बजते ही स्क्रीन पर बड़ा \"बंद करें\" बटन, लॉक स्क्रीन पर भी। नए version की सूचना। दबाकर download करें, settings बनी रहेंगी।",
-  "notes_en": "New: a big \"Stop\" button on screen when the alarm rings, even on the lock screen. New-version alerts. Tap to download; your settings are kept."
+  "notes_hi": "छोटा सुधार: settings साफ़ की गईं। दबाकर download करें, आपकी settings बनी रहेंगी।",
+  "notes_en": "Small update: tidier settings. Tap to download; your settings are kept."
 }
