@@ -1,11 +1,11 @@
-version: 1.9.3
+version: 1.9.4
 files:
-  - url: Digital-Toolbox-Setup-1.9.3.exe
-    sha512: AxvYSQkzzj/m2QxJPbfnym/1lXztXaPcklHyyzLu22za+VgNiPO9y2a7/AXzmn38rYMHaWo2sJZMS8PugS/i7w==
-    size: 90456698
-path: Digital-Toolbox-Setup-1.9.3.exe
-sha512: AxvYSQkzzj/m2QxJPbfnym/1lXztXaPcklHyyzLu22za+VgNiPO9y2a7/AXzmn38rYMHaWo2sJZMS8PugS/i7w==
+  - url: Digital-Toolbox-Setup-1.9.4.exe
+    sha512: UbiTUIKk2IUErFOji2mD5L78m4uMkzn3vPTOScvSe92KgwHoie6bxcRnPBXOlgvFovtwnu1VOSRE6UaOi6dX4g==
+    size: 90458504
+path: Digital-Toolbox-Setup-1.9.4.exe
+sha512: UbiTUIKk2IUErFOji2mD5L78m4uMkzn3vPTOScvSe92KgwHoie6bxcRnPBXOlgvFovtwnu1VOSRE6UaOi6dX4g==
 releaseNotes: |
   - "More from Digital Arts" now shows our software from the Digital Arts catalog (Battery Guard, Lanyard Roll Print …)
   - "View & Download" opens the software page with screenshots, download, installation guide and features
-releaseDate: '2026-11-08T06:08:31.443Z'
+releaseDate: '2026-11-08T17:14:51.252Z'
