@@ -1,12 +1,11 @@
-version: 1.9.2
+version: 1.9.3
 files:
-  - url: Digital-Toolbox-Setup-1.9.2.exe
-    sha512: WaOE5vMEKCu/J2RQMoxJ72YEL4axPuIGLIZwhILh9eaDDWFsCBZxLZ4JYApVaKGxUrpd/TjyzKM8vJfs4nMTUg==
-    size: 90457023
-path: Digital-Toolbox-Setup-1.9.2.exe
-sha512: WaOE5vMEKCu/J2RQMoxJ72YEL4axPuIGLIZwhILh9eaDDWFsCBZxLZ4JYApVaKGxUrpd/TjyzKM8vJfs4nMTUg==
+  - url: Digital-Toolbox-Setup-1.9.3.exe
+    sha512: AxvYSQkzzj/m2QxJPbfnym/1lXztXaPcklHyyzLu22za+VgNiPO9y2a7/AXzmn38rYMHaWo2sJZMS8PugS/i7w==
+    size: 90456698
+path: Digital-Toolbox-Setup-1.9.3.exe
+sha512: AxvYSQkzzj/m2QxJPbfnym/1lXztXaPcklHyyzLu22za+VgNiPO9y2a7/AXzmn38rYMHaWo2sJZMS8PugS/i7w==
 releaseNotes: |
-  - Edit PDF: asks once that you will edit only your own documents
-  - PDFs with a digital signature (certificate) cannot be edited
-  - Edited PDFs carry a note in their properties: edited with Digital Toolbox, and when
-releaseDate: '2026-11-08T03:14:20.935Z'
+  - "More from Digital Arts" now shows our software from the Digital Arts catalog (Battery Guard, Lanyard Roll Print …)
+  - "View & Download" opens the software page with screenshots, download, installation guide and features
+releaseDate: '2026-11-08T06:08:31.443Z'
