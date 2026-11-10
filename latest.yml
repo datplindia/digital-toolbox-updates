@@ -1,11 +1,11 @@
-version: 1.9.5
+version: 1.9.6
 files:
-  - url: Digital-Toolbox-Setup-1.9.5.exe
-    sha512: E1aAvjjdaA7QL8azwRq3Wog+b3KaoFH+PJ7FwjXU5kn9Zi0VBE8uXjQ5LqHdKPnLNV4VmGdhq1H8FuIoR9TMcA==
-    size: 90455549
-path: Digital-Toolbox-Setup-1.9.5.exe
-sha512: E1aAvjjdaA7QL8azwRq3Wog+b3KaoFH+PJ7FwjXU5kn9Zi0VBE8uXjQ5LqHdKPnLNV4VmGdhq1H8FuIoR9TMcA==
+  - url: Digital-Toolbox-Setup-1.9.6.exe
+    sha512: J/vqaSbG/cqTFZnzhbcqmNZlwh5nteR/cInHvxHXGp4vbPFA2Byilq7aXZ71kJIoCMhvO+sHimvjaLRZZOfYEw==
+    size: 90728014
+path: Digital-Toolbox-Setup-1.9.6.exe
+sha512: J/vqaSbG/cqTFZnzhbcqmNZlwh5nteR/cInHvxHXGp4vbPFA2Byilq7aXZ71kJIoCMhvO+sHimvjaLRZZOfYEw==
 releaseNotes: |
-  - Large DXF drawings now open (before: "Maximum call stack size exceeded")
-  - Gang sheets with very detailed cut lines save correctly
-releaseDate: '2026-11-09T04:37:39.287Z'
+  - New: Word → PDF, Excel → PDF and PowerPoint → PDF (uses Microsoft Office, WPS Office or LibreOffice on your computer)
+  - New: Many files → one PDF — Word, Excel, PowerPoint, PDF and pictures joined into a single PDF
+releaseDate: '2026-11-10T11:46:25.255Z'
