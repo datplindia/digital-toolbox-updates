@@ -1,11 +1,12 @@
-version: 1.9.6
+version: 1.9.7
 files:
-  - url: Digital-Toolbox-Setup-1.9.6.exe
-    sha512: J/vqaSbG/cqTFZnzhbcqmNZlwh5nteR/cInHvxHXGp4vbPFA2Byilq7aXZ71kJIoCMhvO+sHimvjaLRZZOfYEw==
-    size: 90728014
-path: Digital-Toolbox-Setup-1.9.6.exe
-sha512: J/vqaSbG/cqTFZnzhbcqmNZlwh5nteR/cInHvxHXGp4vbPFA2Byilq7aXZ71kJIoCMhvO+sHimvjaLRZZOfYEw==
+  - url: Digital-Toolbox-Setup-1.9.7.exe
+    sha512: gqtvZ5GnkLEXJktG2rxgEKbucKTFCzwN5ZUK9ltetesL9WJsTC8H8WGSYtX0fEaDARTHduPTBCzsgsax57vNMQ==
+    size: 90733010
+path: Digital-Toolbox-Setup-1.9.7.exe
+sha512: gqtvZ5GnkLEXJktG2rxgEKbucKTFCzwN5ZUK9ltetesL9WJsTC8H8WGSYtX0fEaDARTHduPTBCzsgsax57vNMQ==
 releaseNotes: |
-  - New: Word → PDF, Excel → PDF and PowerPoint → PDF (uses Microsoft Office, WPS Office or LibreOffice on your computer)
-  - New: Many files → one PDF — Word, Excel, PowerPoint, PDF and pictures joined into a single PDF
-releaseDate: '2026-11-10T11:46:25.255Z'
+  - Edit PDF: Flip left ↔ right and top ↕ bottom (this page, all pages or the selected item)
+  - Edit PDF: Export as PDF, JPG or PNG at any size (feet, inch, mm, cm) with ready sizes
+  - Very large PDFs from Photoshop (big CMYK pictures) now show instead of a blank page
+releaseDate: '2026-11-16T07:30:22.407Z'
