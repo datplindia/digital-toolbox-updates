@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b8a62">
+<title>DA Pay Alert – Payment dashboard</title>
+<style>
+:root{--bg:#f4f6f5;--card:#fff;--ink:#14201b;--mute:#62716a;--line:#e3e8e5;--brand:#0b8a62;--brand2:#e9f6f0;--bad:#c62828;--bad2:#fdecea;--warn:#a15c00;--warn2:#fff4e0;--r:14px}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1513;--card:#18201d;--ink:#e8efeb;--mute:#93a39b;--line:#26302c;--brand:#2fbf8d;--brand2:#14302a;--bad:#ff6b6b;--bad2:#3a1d1d;--warn:#ffb74d;--warn2:#3a2c14}}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif;background:var(--bg);color:var(--ink)}
+header{position:sticky;top:0;z-index:5;background:var(--brand);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px}
+header h1{font-size:17px;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header .live{font-size:12px;opacity:.9;display:flex;align-items:center;gap:6px}
+.dot{width:9px;height:9px;border-radius:50%;background:#7dffc6;display:inline-block}
+.dot.off{background:#ffb3b3}
+nav{display:flex;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:48px;z-index:4}
+nav button{flex:1;border:0;background:none;padding:12px 4px;font:inherit;font-weight:600;color:var(--mute);border-bottom:3px solid transparent;cursor:pointer}
+nav button.on{color:var(--brand);border-color:var(--brand)}
+main{max-width:980px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.stat .k{font-size:12.5px;color:var(--mute);display:flex;align-items:center;gap:6px}
+.stat .v{font-size:24px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
+.stat .s{font-size:12.5px;color:var(--mute)}
+.stat.total{background:var(--brand2);border-color:transparent}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block;flex:none}
+.devs{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.dev{display:flex;gap:8px;align-items:center;padding:9px 12px;border-radius:10px;font-size:13.5px;background:var(--brand2)}
+.dev.bad{background:var(--bad2);color:var(--bad);font-weight:600}
+.dev.warn{background:var(--warn2);color:var(--warn)}
+.list{display:flex;flex-direction:column}
+.pay{display:flex;gap:12px;align-items:center;padding:11px 2px;border-bottom:1px solid var(--line)}
+.pay:last-child{border-bottom:0}
+.pay .amt{font-size:20px;font-weight:700;min-width:96px;font-variant-numeric:tabular-nums}
+.pay .who{flex:1;min-width:0}
+.pay .who b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pay .who>span{font-size:12.5px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-top:2px}
+.pay .who .tag{margin-right:4px}
+.pay .t{font-size:12.5px;color:var(--mute);text-align:right;white-space:nowrap}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--bg);border:1px solid var(--line);color:var(--ink)}
+.pay.new{animation:flash 2.4s ease-out}
+@keyframes flash{0%{background:#ffe9a8}100%{background:transparent}}
+h2{font-size:15px;margin:2px 0 10px}
+.mute{color:var(--mute);font-size:13px}
+input,select{font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);min-width:0}
+input[type=text]{width:100%}
+button.b{font:inherit;font-weight:600;padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+button.b.p{background:var(--brand);border-color:var(--brand);color:#fff}
+button.b.sm{padding:6px 10px;font-size:13px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{font:inherit;font-size:13.5px;padding:6px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.chips button.on{background:var(--brand);border-color:var(--brand);color:#fff}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{color:var(--mute);font-weight:600;font-size:12.5px}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+.empty{padding:26px 8px;text-align:center;color:var(--mute)}
+.check{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
+.check:last-child{border-bottom:0}
+.check .ic{font-size:18px;line-height:1.2}
+.check .tx{flex:1}
+.toggle{display:flex;gap:10px;align-items:center;cursor:pointer;font-weight:600}
+.toggle input{width:20px;height:20px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#14201b;color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;transition:.25s;pointer-events:none;z-index:9}
+#toast.on{opacity:1}
+.hide{display:none!important}
+.login{max-width:420px;margin:8vh auto}
+.big{font-size:20px;letter-spacing:2px;text-transform:uppercase;text-align:center}
+.err{color:var(--bad);font-size:13.5px;margin-top:8px}
+.pill{font-size:11.5px;padding:1px 7px;border-radius:99px;background:var(--warn2);color:var(--warn);font-weight:600}
+.src{font-size:10.5px;font-weight:700;padding:1px 6px;border-radius:5px;background:var(--brand2);color:var(--brand);letter-spacing:.3px}
+.src.sms{background:#e8eefc;color:#2851b8}
+@media (prefers-color-scheme:dark){.src.sms{background:#1b2742;color:#8fb0ff}}
+.st{font-size:12px;font-weight:700;border-radius:99px;padding:3px 9px;border:1px solid var(--line);background:var(--card);color:var(--warn);cursor:pointer;white-space:nowrap;font-family:inherit}
+.st.ok{color:var(--brand);background:var(--brand2);border-color:transparent}
+.pay{cursor:pointer}
+.pay.done .amt{color:var(--mute)}
+.utr{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;color:var(--mute)}
+#sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:8;display:flex;align-items:flex-end;justify-content:center}
+#sheet .box{background:var(--card);width:100%;max-width:520px;border-radius:18px 18px 0 0;padding:18px 16px 22px;max-height:88vh;overflow:auto}
+@media (min-width:700px){#sheet{align-items:center}#sheet .box{border-radius:18px}}
+#sheet .big{font-size:28px;font-weight:800;letter-spacing:0;text-transform:none;text-align:left}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:6px 10px;font-size:14px;margin:10px 0}
+.kv div:nth-child(odd){color:var(--mute)}
+.raw{font-size:12.5px;color:var(--mute);background:var(--bg);border-radius:8px;padding:8px;margin-top:6px;word-break:break-word}
+.acc{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;margin:8px 0}
+footer{text-align:center;color:var(--mute);font-size:12px;padding:18px 0 28px}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="shopName">DA Pay Alert</h1>
+  <div class="live" id="liveBox"><span class="dot" id="liveDot"></span><span id="liveTxt">Live</span></div>
+</header>
+
+<section id="login" class="login hide">
+  <div class="card">
+    <h2>Open dashboard</h2>
+    <p class="mute">Enter your <b>view code</b> (VW…), <b>phone code</b> (PH…) or <b>owner code</b> (OW…). Get it from the owner.</p>
+    <input id="codeIn" type="text" class="big" placeholder="VW••••••••••" autocomplete="off" autocapitalize="characters" spellcheck="false">
+    <div class="err" id="loginErr"></div>
+    <div style="margin-top:12px"><button class="b p" id="loginBtn" style="width:100%">Open</button></div>
+  </div>
+</section>
+
+<section id="pending" class="login hide">
+  <div class="card">
+    <h2>⏳ Waiting for owner approval</h2>
+    <p class="mute">For safety, the dashboard opens only on devices the owner has approved (the office computer). Ask the owner to open <b>Settings → Approved devices</b> with the owner code and tap <b>Approve</b>.</p>
+    <label class="mute">Name of this device</label>
+    <input id="devName" type="text" maxlength="60" placeholder="e.g. Office Desktop" style="margin:4px 0 10px">
+    <div class="row"><button class="b p" id="pendCheck">Check again</button><button class="b" id="pendBack">Use another code</button></div>
+    <div class="mute" id="pendTxt" style="margin-top:8px"></div>
+  </div>
+</section>
+
+<div id="app" class="hide">
+<nav>
+  <button data-tab="live" class="on">Live</button>
+  <button data-tab="report">Report / History</button>
+  <button data-tab="debits" id="debitsNav" class="hide">Debits / EMI</button>
+  <button data-tab="settings">Settings</button>
+</nav>
+<main>
+  <!-- LIVE -->
+  <section id="tab-live">
+    <div class="devs" id="devs"></div>
+    <div class="grid" id="todayCards" style="margin-bottom:12px"></div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between;margin-bottom:4px">
+        <h2 style="margin:0">Latest payments</h2>
+        <div class="chips" id="liveFilter"></div>
+      </div>
+      <div class="chips" id="statusFilter" style="margin:6px 0 2px">
+        <button data-s="" class="on">All</button>
+        <button data-s="pending">Pending</button>
+        <button data-s="matched">Matched</button>
+      </div>
+      <div class="list" id="feed"></div>
+    </div>
+  </section>
+
+  <!-- REPORT -->
+  <section id="tab-report" class="hide">
+    <div class="card">
+      <div class="chips" id="presets" style="margin-bottom:10px">
+        <button data-p="today" class="on">Today</button>
+        <button data-p="yesterday">Yesterday</button>
+        <button data-p="week">This week</button>
+        <button data-p="month">This month</button>
+        <button data-p="lastmonth">Last month</button>
+        <button data-p="custom">Pick dates</button>
+      </div>
+      <div class="row" id="customBox" style="margin-bottom:10px">
+        <label class="mute">From <input type="date" id="dFrom"></label>
+        <label class="mute">To <input type="date" id="dTo"></label>
+      </div>
+      <div class="row">
+        <select id="qrSel"><option value="">All QR / accounts</option></select>
+        <select id="stSel"><option value="">All</option><option value="pending">pending</option><option value="matched">Matched</option></select>
+        <button class="b sm" id="csvBtn" style="margin-left:auto">⬇ Excel (CSV)</button>
+        <input id="search" type="text" placeholder="Search name, amount or UTR…">
+      </div>
+    </div>
+    <div class="grid" id="repCards" style="margin-bottom:12px"></div>
+    <div class="card">
+      <h2>Day-wise</h2>
+      <div class="scroll"><table id="dayTable"></table></div>
+    </div>
+    <div class="card">
+      <h2 id="rowsTitle">All payments</h2>
+      <div class="scroll"><table id="rowTable"></table></div>
+    </div>
+  </section>
+
+  <!-- DEBITS (owner only) -->
+  <section id="tab-debits" class="hide">
+    <div class="card">
+      <div class="chips" id="dPresets" style="margin-bottom:10px">
+        <button data-p="month" class="on">This month</button>
+        <button data-p="lastmonth">Last month</button>
+        <button data-p="3m">Last 3 months</button>
+        <button data-p="year">This year</button>
+      </div>
+      <div class="row">
+        <select id="dAcc"><option value="">All accounts</option></select>
+        <button class="b sm" id="dCsv" style="margin-left:auto">⬇ Excel (CSV)</button>
+      </div>
+      <p class="mute" style="margin:8px 0 0">🔒 Visible only with the owner code. Money going out of the accounts you ticked under Settings → "Debits / EMI".</p>
+    </div>
+    <div class="grid" id="dCards" style="margin-bottom:12px"></div>
+    <div class="card"><div class="scroll"><table id="dTable"></table></div></div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="tab-settings" class="hide">
+    <div class="card hide" id="collectorNote">
+      <h2>📱 Collection phone</h2>
+      <p class="mute" style="margin:0">This phone only sends payments. For privacy, payments are shown only on the approved office computer.</p>
+    </div>
+    <div class="card hide" id="devicesCard">
+      <h2>🔒 Approved devices</h2>
+      <p class="mute" style="margin:0 0 8px">Only approved devices can open the dashboard with the view code. Approve only the office computer.</p>
+      <div id="devList"></div>
+    </div>
+    <div class="card" id="nativeCollector">
+      <label class="toggle"><input type="checkbox" id="collector"> This phone receives payments (collection phone)</label>
+      <p class="mute" style="margin:6px 0 10px">Turn this on for the phone that has the GPay / PhonePe Business app or receives the bank SMS. It needs the <b>phone code (PH…)</b> .</p>
+      <div id="collectorBox">
+        <label class="toggle" style="margin:4px 0 6px"><input type="checkbox" id="srcApps"> Read payment app notifications (GPay / PhonePe Business)</label>
+        <div id="appsBox">
+          <label class="mute">Name of this QR (shown on the dashboard)</label>
+          <input id="qrLabel" type="text" placeholder="e.g. Shree Creation" maxlength="60" style="margin:4px 0 10px">
+        </div>
+        <label class="toggle" style="margin:8px 0 6px"><input type="checkbox" id="srcSms"> Read bank SMS (several accounts on one phone)</label>
+        <div id="smsBox" class="hide">
+          <p class="mute" style="margin:0 0 6px">Name each account and tick what to track. <b>"Payments in"</b> = customer payments on the dashboard (current / CC accounts). <b>"Debits / EMI 🔒"</b> = money going out, visible only with the owner code (loan accounts). Accounts with nothing ticked are ignored. If a QR is linked to the same account, use the <b>same name</b> as the QR — then one payment won't show twice.</p>
+          <div id="accList"></div>
+          <div class="row" style="margin-top:6px">
+            <input id="accNew" type="text" placeholder="Last digits, e.g. 1234" inputmode="numeric" maxlength="6" style="width:150px">
+            <button class="b sm" id="accAdd">+ Add account</button>
+            <button class="b sm p" id="accSave">Save names</button>
+          </div>
+          <div class="row" style="margin-top:8px"><button class="b sm" id="rescan">Re-check SMS of the last 3 days</button><span class="mute" id="scanTxt"></span></div>
+        </div>
+        <div id="checks"></div>
+        <div class="row" style="margin-top:10px">
+          <button class="b sm" id="flushBtn">Send / check now</button>
+          <span class="mute" id="queueTxt"></span>
+        </div>
+        <details style="margin-top:12px">
+          <summary class="mute">Recently captured payments (this phone)</summary>
+          <div id="localLog" class="mute" style="margin-top:8px"></div>
+        </details>
+        <details style="margin-top:8px">
+          <summary class="mute">Test: paste a bank SMS</summary>
+          <input id="sSender" type="text" placeholder="Sender, e.g. AD-HDFCBK" style="margin-top:8px">
+          <input id="sBody" type="text" placeholder="Full SMS text" style="margin-top:6px">
+          <button class="b sm" id="sBtn" style="margin-top:6px">Check</button>
+          <div id="sOut" class="mute" style="margin-top:6px"></div>
+        </details>
+        <details style="margin-top:8px">
+          <summary class="mute">Test: paste a notification text</summary>
+          <input id="tTitle" type="text" placeholder="Title, e.g. Payment received" style="margin-top:8px">
+          <input id="tText" type="text" placeholder="Text, e.g. ₹500 received from Ramesh" style="margin-top:6px">
+          <button class="b sm" id="tBtn" style="margin-top:6px">Check</button>
+          <div id="tOut" class="mute" style="margin-top:6px"></div>
+        </details>
+      </div>
+    </div>
+
+    <div class="card" id="nativeAlerts">
+      <label class="toggle"><input type="checkbox" id="alerts"> Ring this phone when a new payment arrives</label>
+      <p class="mute" style="margin:6px 0 0">For staff phones. Checks every 10 seconds, even when the app is closed, and shows a notification.</p>
+    </div>
+
+    <div class="card">
+      <h2>On this dashboard</h2>
+      <label class="toggle" style="margin-bottom:8px"><input type="checkbox" id="sound"> Beep when a new payment arrives</label>
+      <label class="toggle hide" id="speakRow" style="margin-bottom:8px"><input type="checkbox" id="speak"> Speak the amount</label>
+      <div class="row hide" id="browserNotifyRow" style="margin-bottom:8px"><button class="b sm" id="bnBtn">Turn on pop-up notifications on this computer</button></div>
+      <div class="row" style="margin-top:6px">
+        <div style="flex:1"><div class="mute">Code</div><b id="codeShow"></b> <span class="mute" id="codeKind"></span></div>
+        <button class="b sm" id="changeCode">Change code</button>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>DA Pay Alert <span id="ver"></span> · Digital Arts, Made with ♥ in Andaman</footer>
+</div>
+<div id="toast"></div>
+<div id="sheet" class="hide"><div class="box" id="sheetBox"></div></div>
+
+<script>
+(function(){
+"use strict";
+var SB_URL="https://jxxbyfpsqzedbfipqdot.supabase.co", SB_KEY="sb_publishable_awM1wis0O2hsnBzONuNBDg_IwZZh_Se";
+var N=window.PayAlertNative||null;
+var $=function(id){return document.getElementById(id)};
+var PAL=["#0b8a62","#7b3fe4","#d1495b","#1f6fd1","#e08a00","#00897b","#8d6e63","#c2185b"];
+function devToken(){
+  if(N){try{return JSON.parse(N.config()).install_id+"-app"}catch(e){}}
+  var t=store.get("device","");
+  if(!t){var a=new Uint8Array(16);(window.crypto||window.msCrypto).getRandomValues(a);t=Array.prototype.map.call(a,function(b){return ("0"+b.toString(16)).slice(-2)}).join("");store.set("device",t)}
+  return t;
+}
+var S={code:"",lastId:0,since:null,feed:[],qrs:[],qrColor:{},live:"",status:"",tab:"live",preset:"today",rep:null,first:true,online:true};
+var store={get:function(k,d){try{var v=localStorage.getItem("pa_"+k);return v===null?d:v}catch(e){return d}},set:function(k,v){try{localStorage.setItem("pa_"+k,v)}catch(e){}}};
+
+function pl(n,one,many){n=Number(n);return n+" "+(n===1?one:(many||one+"s"))}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function inr(v){if(v==null)return "₹?";var n=Number(v);return "₹"+n.toLocaleString("en-IN",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2})}
+function ist(iso,opt){return new Date(iso).toLocaleString("en-IN",Object.assign({timeZone:"Asia/Kolkata"},opt))}
+function tTime(iso){return ist(iso,{hour:"numeric",minute:"2-digit"})}
+function tDate(iso){return ist(iso,{day:"numeric",month:"short"})}
+function istToday(){return new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kolkata"}).format(new Date())}
+function addDays(ymd,n){var p=ymd.split("-").map(Number);var d=new Date(Date.UTC(p[0],p[1]-1,p[2]+n));return d.toISOString().slice(0,10)}
+function ago(iso){var s=(Date.now()-new Date(iso).getTime())/1000;if(s<60)return "just now";if(s<3600)return Math.floor(s/60)+" min ago";if(s<86400)return Math.floor(s/3600)+" h ago";return Math.floor(s/86400)+" d ago"}
+function color(q){if(!S.qrColor[q]){var i=Object.keys(S.qrColor).length;S.qrColor[q]=PAL[i%PAL.length]}return S.qrColor[q]}
+function toast(m){var t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove("on")},2200)}
+window.__paToast=toast;
+
+function rpc(fn,body){
+  return fetch(SB_URL+"/rest/v1/rpc/"+fn,{method:"POST",headers:{"apikey":SB_KEY,"Content-Type":"application/json"},body:JSON.stringify(body)})
+    .then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json()});
+}
+
+/* ---------- login ---------- */
+function showLogin(msg){$("app").classList.add("hide");$("pending").classList.add("hide");$("login").classList.remove("hide");$("loginErr").textContent=msg||"";$("codeIn").value=S.code||""}
+function devInfo(){var u=navigator.userAgent;return (/Android/i.test(u)?"Android":/iPhone|iPad/i.test(u)?"iPhone":/Windows/i.test(u)?"Windows":/Mac/i.test(u)?"Mac":"Other")+(N?" · app":" · browser")}
+function enter(code){
+  code=(code||"").trim().toUpperCase().replace(/\s+/g,"");
+  if(code.length<8){$("loginErr").textContent="Enter the full code";return}
+  $("loginBtn").disabled=true;
+  var name=($("devName").value||"").trim()||store.get("devname","")||(N?"Phone app":"Office Desktop");
+  rpc("pa_viewer_register",{p_code:code,p_device:devToken(),p_name:name,p_info:devInfo()}).then(function(r){
+    $("loginBtn").disabled=false;
+    if(!r.ok){S.code=code;showLogin(r.error==="bad_code"?"Wrong code":"Could not open ("+r.error+")");return}
+    S.code=code;store.set("code",code);
+    if(N){var c=JSON.parse(N.config());if(c.code!==code)N.save(JSON.stringify({code:code}))}
+    S.role=r.role;
+    if(r.role==="phone"){
+      if(!N){showLogin("This phone code is only for collection phones. Use the view code here.");return}
+      startCollector();return;
+    }
+    if(r.role==="view"&&!r.approved){showPending(name);return}
+    rpc("pa_feed2",{p_code:code,p_device:devToken(),p_after_id:0,p_limit:50}).then(function(f){if(f.ok)start(f);else if(/device/.test(f.error||""))showPending(name);else showLogin("Could not open")});
+  }).catch(function(){$("loginBtn").disabled=false;S.code=code;showLogin("No internet – try again")});
+}
+function tryLogin(code){enter(code)}
+var pendTimer=null;
+function showPending(name){
+  clearInterval(pollTimer);
+  $("login").classList.add("hide");$("app").classList.add("hide");$("pending").classList.remove("hide");$("liveBox").classList.add("hide");
+  $("devName").value=name||store.get("devname","")||"Office Desktop";
+  $("pendTxt").textContent="Code: "+S.code+" · this device is waiting for approval";
+  clearInterval(pendTimer);pendTimer=setInterval(function(){if(!$("pending").classList.contains("hide"))enter(S.code)},15000);
+}
+$("pendCheck").onclick=function(){store.set("devname",$("devName").value.trim());enter(S.code)};
+$("pendBack").onclick=function(){clearInterval(pendTimer);showLogin("")};
+function startCollector(){
+  clearInterval(pollTimer);clearInterval(pendTimer);
+  $("login").classList.add("hide");$("pending").classList.add("hide");$("app").classList.remove("hide");
+  ["live","report","debits"].forEach(function(t){var b=document.querySelector('nav button[data-tab="'+t+'"]');if(b)b.classList.add("hide")});
+  $("collectorNote").classList.remove("hide");$("devicesCard").classList.add("hide");$("liveBox").classList.add("hide");
+  $("shopName").textContent="DA Pay Alert";
+  $("codeShow").textContent=S.code;$("codeKind").textContent="(phone code – sends payments only)";
+  setTab("settings");
+}
+$("loginBtn").onclick=function(){tryLogin($("codeIn").value)};
+$("codeIn").onkeydown=function(e){if(e.key==="Enter")tryLogin(this.value)};
+$("changeCode").onclick=function(){showLogin("")};
+
+/* ---------- tabs ---------- */
+Array.prototype.forEach.call(document.querySelectorAll("nav button"),function(b){
+  b.onclick=function(){setTab(b.getAttribute("data-tab"))};
+});
+function setTab(t){
+  S.tab=t;
+  Array.prototype.forEach.call(document.querySelectorAll("nav button"),function(b){b.classList.toggle("on",b.getAttribute("data-tab")===t)});
+  ["live","report","debits","settings"].forEach(function(x){$("tab-"+x).classList.toggle("hide",x!==t)});
+  if(t==="report")loadReport();
+  if(t==="debits")loadDebits();
+  if(t==="settings")loadDevices();
+  if(t==="settings")renderSettings();
+}
+
+/* ---------- live ---------- */
+var pollTimer=null;
+function start(first){
+  $("login").classList.add("hide");$("pending").classList.add("hide");$("app").classList.remove("hide");clearInterval(pendTimer);
+  $("codeShow").textContent=S.code;$("codeKind").textContent=S.code.indexOf("PH")===0?"(phone code – can also send payments)":"(view code – view only)";
+  S.lastId=0;S.since=null;S.feed=[];S.first=true;
+  applyFeed(first);
+  clearInterval(pollTimer);pollTimer=setInterval(poll,5000);
+  S.owner=first.role==="owner";$("debitsNav").classList.toggle("hide",!S.owner);
+  $("devicesCard").classList.toggle("hide",!S.owner);$("collectorNote").classList.add("hide");$("liveBox").classList.remove("hide");
+  ["live","report"].forEach(function(t){var b=document.querySelector('nav button[data-tab="'+t+'"]');if(b)b.classList.remove("hide")});
+  $("codeKind").textContent=S.owner?"(owner code – sees everything incl. debits)":"(view code – approved device)";
+  if(N)$("nativeAlerts").classList.toggle("hide",!S.owner);
+  if(S.tab==="report")loadReport();
+}
+function poll(){
+  if(!S.code)return;
+  rpc("pa_feed2",{p_code:S.code,p_device:devToken(),p_after_id:S.lastId,p_limit:50,p_since:S.since}).then(function(r){
+    if(!r.ok){clearInterval(pollTimer);if(/device/.test(r.error||""))showPending(store.get("devname",""));else showLogin("Code is no longer valid");return}
+    setOnline(true);applyFeed(r);
+  }).catch(function(){setOnline(false)});
+}
+function setOnline(on){S.online=on;$("liveDot").classList.toggle("off",!on);$("liveTxt").textContent=on?"Live":"Offline"}
+function applyFeed(r){
+  $("shopName").textContent=r.shop||"DA Pay Alert";
+  document.title=(r.shop||"")+" – Payment dashboard";
+  var fresh=(r.payments||[]).slice().reverse();
+  var newOnes=[];
+  fresh.forEach(function(p){if(p.id>S.lastId){S.lastId=p.id;S.feed.unshift(p);if(!S.first)newOnes.push(p)}});
+  S.feed=S.feed.slice(0,100);
+  var changed=r.changed||[];
+  changed.forEach(function(c){for(var i=0;i<S.feed.length;i++){if(S.feed[i].id===c.id){S.feed[i]=c;break}}});
+  if(r.now)S.since=r.now;
+  (r.devices||[]).forEach(function(d){color(d.qr_label)});
+  S.feed.forEach(function(p){color(p.qr_label)});
+  renderDevices(r.devices||[],r.now);
+  renderToday(r.today||[]);
+  if(newOnes.length||changed.length||S.first)renderFeed(newOnes);
+  if(newOnes.length)announce(newOnes);
+  S.first=false;
+}
+function renderDevices(ds,now){
+  var box=$("devs");
+  if(!ds.length){box.innerHTML='<div class="dev warn">⚠ No collection phone connected yet. Install DA Pay Alert on the QR / SMS phone and enter the phone code.</div>';return}
+  var nowMs=now?new Date(now).getTime():Date.now();
+  box.innerHTML=ds.map(function(d){
+    var age=(nowMs-new Date(d.last_seen).getTime())/60000;
+    var cls="dev",txt;
+    if(d.listener_ok===false){cls+=" bad";txt="⚠ "+esc(d.qr_label)+": : notification access is OFF – payments won't show"}
+    else if(age>15){cls+=" bad";txt="⚠ "+esc(d.qr_label)+"  phone is offline ("+ago(d.last_seen)+") – check phone / internet"}
+    else txt='<span class="sw" style="background:'+color(d.qr_label)+'"></span> '+esc(d.qr_label)+" · phone online · "+ago(d.last_seen);
+    return '<div class="'+cls+'">'+txt+'</div>';
+  }).join("");
+}
+function renderToday(t){
+  var total=0,n=0,pend=0;t.forEach(function(x){total+=Number(x.total);n+=x.n;pend+=Number(x.pending||0)});
+  var labels={};S.feed.forEach(function(p){labels[p.qr_label]=1});t.forEach(function(x){labels[x.qr_label]=1});
+  var html='<div class="stat total"><div class="k">Today total</div><div class="v">'+inr(total)+'</div><div class="s">'+pl(n,'payment')+(pend?' · <b style="color:var(--warn)">'+pend+' to match</b>':'')+'</div></div>';
+  html+=t.map(function(x){return '<div class="stat"><div class="k"><span class="sw" style="background:'+color(x.qr_label)+'"></span>'+esc(x.qr_label)+'</div><div class="v">'+inr(x.total)+'</div><div class="s">'+pl(x.n,'payment')+(x.pending?' · '+x.pending+' pending':'')+'</div></div>'}).join("");
+  $("todayCards").innerHTML=html;
+  var qs=Object.keys(S.qrColor);
+  var f=$("liveFilter");
+  if(qs.length>1){
+    f.innerHTML=['<button data-q="" class="'+(S.live===""?"on":"")+'">All</button>'].concat(qs.map(function(q){return '<button data-q="'+esc(q)+'" class="'+(S.live===q?"on":"")+'">'+esc(q)+'</button>'})).join("");
+    Array.prototype.forEach.call(f.querySelectorAll("button"),function(b){b.onclick=function(){S.live=b.getAttribute("data-q");renderToday(t);renderFeed([])}});
+  } else f.innerHTML="";
+}
+function srcBadges(p){
+  var s=p.sources||["app"];
+  return s.map(function(x){return x==="sms"?'<span class="src sms">SMS</span>':'<span class="src">App</span>'}).join(" ");
+}
+function payRow(p,isNew){
+  var who=p.payer?esc(p.payer):'<span class="mute">Name not found</span>';
+  var app=(p.sources||[]).length===1&&p.sources[0]==="app"?esc(p.source_app||""):"";
+  var st=p.matched_at?'<span class="st ok">✔ Matched</span>':'<span class="st">To match</span>';
+  return '<div class="pay'+(isNew?" new":"")+(p.matched_at?" done":"")+'" data-id="'+p.id+'"><div class="amt">'+inr(p.amount)+'</div><div class="who"><b>'+who+'</b><span><span class="tag"><span class="sw" style="background:'+color(p.qr_label)+'"></span>'+esc(p.qr_label)+'</span> '+srcBadges(p)+' '+app+'</span>'+(p.matched_at&&p.match_note?'<span>✔ '+esc(p.match_note)+'</span>':'')+'</div><div class="t">'+tTime(p.notif_at)+'<br>'+tDate(p.notif_at)+'<br>'+st+'</div></div>';
+}
+function bindRows(box,list){
+  Array.prototype.forEach.call(box.querySelectorAll("[data-id]"),function(el){
+    el.onclick=function(){var id=+el.getAttribute("data-id");for(var i=0;i<list.length;i++)if(list[i].id===id){openSheet(list[i]);break}};
+  });
+}
+function renderFeed(newOnes){
+  var ids={};newOnes.forEach(function(p){ids[p.id]=1});
+  var list=S.feed.filter(function(p){return (!S.live||p.qr_label===S.live)&&(!S.status||(S.status==="pending"?!p.matched_at:!!p.matched_at))});
+  $("feed").innerHTML=list.length?list.slice(0,60).map(function(p){return payRow(p,ids[p.id])}).join(""):'<div class="empty">'+(S.status==="pending"?"All matched ✔":"No payments yet. They will appear here as soon as they arrive.")+'</div>';
+  bindRows($("feed"),list);
+}
+Array.prototype.forEach.call(document.querySelectorAll("#statusFilter button"),function(b){
+  b.onclick=function(){S.status=b.getAttribute("data-s");Array.prototype.forEach.call(document.querySelectorAll("#statusFilter button"),function(x){x.classList.toggle("on",x===b)});renderFeed([])};
+});
+
+/* ---------- detail sheet: mark as matched ---------- */
+function openSheet(p){
+  var box=$("sheetBox"),by=store.get("by","");
+  box.innerHTML='<div class="row" style="justify-content:space-between"><div class="big">'+inr(p.amount)+'</div><button class="b sm" id="shClose">✕</button></div>'+
+    '<div class="kv"><div>From</div><div><b>'+(p.payer?esc(p.payer):"–")+'</b></div>'+
+    '<div>QR / account</div><div>'+esc(p.qr_label)+(p.account_last4?' <span class="mute">(XX'+esc(p.account_last4)+')</span>':'')+'</div>'+
+    '<div>Time</div><div>'+ist(p.notif_at,{day:"numeric",month:"short",year:"numeric",hour:"numeric",minute:"2-digit"})+'</div>'+
+    '<div>UTR / Ref</div><div class="utr" style="font-size:14px">'+(p.utr?esc(p.utr):"–")+'</div>'+
+    '<div>Detected from</div><div>'+srcBadges(p)+' '+esc((p.sources||[]).indexOf("app")>=0?p.source_app||"":"")+'</div></div>'+
+    (p.raw_text&&(p.sources||[]).indexOf("app")>=0?'<div class="raw">'+esc(p.raw_text)+'</div>':'')+
+    (p.sms_text?'<div class="raw">SMS: '+esc(p.sms_text)+'</div>':'')+
+    (p.matched_at?'<div class="dev" style="margin-top:12px">✔ Matched'+(p.matched_by?' · '+esc(p.matched_by):'')+' · '+ist(p.matched_at,{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"})+(p.match_note?'<br>'+esc(p.match_note):'')+'</div>'+
+      '<div class="row" style="margin-top:12px"><button class="b" id="shUndo">Move back to pending</button></div>'
+    :'<div style="margin-top:12px"><label class="mute">Customer / bill no. / note</label><input id="shNote" type="text" placeholder="e.g. Ramesh Traders, Bill #1042" maxlength="200" style="margin:4px 0 8px">'+
+      '<label class="mute">Your name</label><input id="shBy" type="text" maxlength="40" value="'+esc(by)+'" style="margin:4px 0 12px">'+
+      '<button class="b p" id="shOk" style="width:100%">✔ Matched</button></div>');
+  $("sheet").classList.remove("hide");
+  $("shClose").onclick=closeSheet;
+  if($("shOk"))$("shOk").onclick=function(){var b=$("shBy").value.trim();store.set("by",b);mark(p,true,$("shNote").value,b)};
+  if($("shUndo"))$("shUndo").onclick=function(){mark(p,false,null,null)};
+}
+function closeSheet(){$("sheet").classList.add("hide")}
+$("sheet").onclick=function(e){if(e.target===this)closeSheet()};
+function mark(p,on,note,by){
+  rpc("pa_mark2",{p_code:S.code,p_device:devToken(),p_id:p.id,p_matched:on,p_note:note||null,p_by:by||null}).then(function(r){
+    if(!r.ok){toast("Not saved");return}
+    p.matched_at=on?new Date().toISOString():null;p.match_note=on?(note||null):null;p.matched_by=on?(by||null):null;
+    S.feed.forEach(function(x){if(x.id===p.id){x.matched_at=p.matched_at;x.match_note=p.match_note;x.matched_by=p.matched_by}});
+    closeSheet();toast(on?"✔ Matched":"Moved back to pending");renderFeed([]);
+    if(S.rep)renderRows();
+  }).catch(function(){toast("No internet")});
+}
+
+/* ---------- sound / announce ---------- */
+var actx=null;
+function beep(){
+  try{
+    actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+    if(actx.state==="suspended")actx.resume();
+    [0,0.18].forEach(function(dt,i){
+      var o=actx.createOscillator(),g=actx.createGain();o.type="sine";o.frequency.value=i?1318:988;
+      o.connect(g);g.connect(actx.destination);var t=actx.currentTime+dt;
+      g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.35,t+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t+0.35);
+      o.start(t);o.stop(t+0.4);
+    });
+  }catch(e){}
+}
+document.addEventListener("click",function(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){}},{once:true});
+function announce(ps){
+  if(store.get("sound","1")==="1")beep();
+  if(!N&&store.get("speak","0")==="1"&&window.speechSynthesis){
+    ps.forEach(function(p){try{var u=new SpeechSynthesisUtterance((p.amount!=null?Math.round(p.amount)+" rupees received in ":"Payment received in ")+p.qr_label);u.lang="en-IN";speechSynthesis.speak(u)}catch(e){}});
+  }
+  if(!N&&window.Notification&&Notification.permission==="granted"&&document.hidden){
+    ps.forEach(function(p){try{new Notification(inr(p.amount)+" received · "+p.qr_label,{body:(p.payer?p.payer+" · ":"")+tTime(p.notif_at),tag:"pa"+p.id})}catch(e){}});
+  }
+}
+
+/* ---------- report ---------- */
+function range(){
+  var t=istToday(),f,to;
+  switch(S.preset){
+    case "yesterday":f=addDays(t,-1);to=t;break;
+    case "week":var dow=new Date(t+"T00:00:00Z").getUTCDay();var back=(dow+6)%7;f=addDays(t,-back);to=addDays(t,1);break;
+    case "month":f=t.slice(0,8)+"01";to=addDays(t,1);break;
+    case "lastmonth":var first=t.slice(0,8)+"01";var pm=addDays(first,-1);f=pm.slice(0,8)+"01";to=first;break;
+    case "custom":f=$("dFrom").value||t;to=addDays($("dTo").value||t,1);if(to<=f)to=addDays(f,1);break;
+    default:f=t;to=addDays(t,1);
+  }
+  return {from:f,to:to};
+}
+Array.prototype.forEach.call(document.querySelectorAll("#presets button"),function(b){
+  b.onclick=function(){
+    S.preset=b.getAttribute("data-p");
+    Array.prototype.forEach.call(document.querySelectorAll("#presets button"),function(x){x.classList.toggle("on",x===b)});
+    $("customBox").classList.toggle("hide",S.preset!=="custom");
+    loadReport();
+  };
+});
+$("customBox").classList.add("hide");
+$("dFrom").value=addDays(istToday(),-6);$("dTo").value=istToday();
+$("dFrom").onchange=$("dTo").onchange=loadReport;
+$("qrSel").onchange=loadReport;$("stSel").onchange=loadReport;
+$("search").oninput=function(){renderRows()};
+function loadReport(){
+  if(!S.code)return;
+  var r=range();
+  $("rowTable").innerHTML='<tr><td class="empty">Loading…</td></tr>';
+  rpc("pa_report2",{p_code:S.code,p_device:devToken(),p_from:r.from+"T00:00:00+05:30",p_to:r.to+"T00:00:00+05:30",p_qr:$("qrSel").value||null,p_status:$("stSel").value||null}).then(function(d){
+    if(!d.ok){toast("Report failed");return}
+    S.rep=d;S.rep._range=r;
+    var sel=$("qrSel"),cur=sel.value;
+    sel.innerHTML='<option value="">All QR / accounts</option>'+(d.qrs||[]).map(function(q){color(q);return '<option'+(q===cur?" selected":"")+'>'+esc(q)+'</option>'}).join("");
+    renderReport();
+  }).catch(function(){toast("No internet")});
+}
+function renderReport(){
+  var d=S.rep,total=0,n=0,pend=0,pendAmt=0;
+  d.by_qr.forEach(function(x){total+=Number(x.total);n+=x.n;pend+=Number(x.pending||0);pendAmt+=Number(x.pending_total||0)});
+  var r=d._range,label=r.from===addDays(r.to,-1)?fmtDay(r.from):fmtDay(r.from)+" – "+fmtDay(addDays(r.to,-1));
+  $("repCards").innerHTML='<div class="stat total"><div class="k">Total · '+label+'</div><div class="v">'+inr(total)+'</div><div class="s">'+n+' payments</div></div>'+
+    (pend?'<div class="stat" style="border-color:var(--warn)"><div class="k">Pending to match</div><div class="v" style="color:var(--warn)">'+inr(pendAmt)+'</div><div class="s">'+pend+' payments</div></div>':'')+
+    d.by_qr.map(function(x){return '<div class="stat"><div class="k"><span class="sw" style="background:'+color(x.qr_label)+'"></span>'+esc(x.qr_label)+'</div><div class="v">'+inr(x.total)+'</div><div class="s">'+pl(x.n,'payment')+(x.pending?' · '+x.pending+' pending':'')+'</div></div>'}).join("");
+  // day table: rows = day, columns = QR
+  var qrs=d.by_qr.map(function(x){return x.qr_label});var days={};
+  d.by_day.forEach(function(x){(days[x.day]=days[x.day]||{})[x.qr_label]=x});
+  var keys=Object.keys(days).sort().reverse();
+  $("dayTable").innerHTML=keys.length?'<tr><th>Date</th>'+qrs.map(function(q){return '<th class="n">'+esc(q)+'</th>'}).join("")+(qrs.length>1?'<th class="n">Total</th>':'')+'</tr>'+
+    keys.map(function(k){var t=0;return '<tr><td>'+fmtDay(k)+'</td>'+qrs.map(function(q){var x=days[k][q];t+=x?Number(x.total):0;return '<td class="n">'+(x?inr(x.total)+' <span class="mute">('+x.n+')</span>':'–')+'</td>'}).join("")+(qrs.length>1?'<td class="n"><b>'+inr(t)+'</b></td>':'')+'</tr>'}).join(""):'<tr><td class="empty">No payments in this period</td></tr>';
+  renderRows();
+}
+function fmtDay(ymd){var p=ymd.split("-");return new Date(Date.UTC(+p[0],p[1]-1,+p[2])).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"})}
+function filteredRows(){
+  var q=$("search").value.trim().toLowerCase();
+  return (S.rep?S.rep.rows:[]).filter(function(p){if(!q)return true;return (p.payer||"").toLowerCase().indexOf(q)>=0||(p.utr||"").toLowerCase().indexOf(q)>=0||(p.match_note||"").toLowerCase().indexOf(q)>=0||(p.sms_text||"").toLowerCase().indexOf(q)>=0||String(p.amount).indexOf(q.replace(/[₹,]/g,""))===0||(p.raw_text||"").toLowerCase().indexOf(q)>=0});
+}
+function renderRows(){
+  var rows=filteredRows();
+  $("rowsTitle").textContent="All payments ("+rows.length+")";
+  $("rowTable").innerHTML=rows.length?'<tr><th>Date / time</th><th class="n">Amount</th><th>From</th><th>QR / account</th><th>Status</th><th>UTR</th><th>Source</th></tr>'+rows.map(function(p){
+    return '<tr data-id="'+p.id+'" style="cursor:pointer"><td>'+ist(p.notif_at,{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"})+'</td><td class="n"><b>'+inr(p.amount)+'</b></td><td>'+(p.payer?esc(p.payer):'<span class="mute">–</span>')+'</td><td><span class="tag"><span class="sw" style="background:'+color(p.qr_label)+'"></span>'+esc(p.qr_label)+'</span></td><td>'+(p.matched_at?'<span class="st ok">✔ '+esc(p.match_note||"Matched")+'</span>':'<span class="st">To match</span>')+'</td><td class="utr">'+esc(p.utr||"")+'</td><td>'+srcBadges(p)+'</td></tr>'}).join(""):'<tr><td class="empty">No payments</td></tr>';
+  bindRows($("rowTable"),rows);
+}
+$("csvBtn").onclick=function(){
+  if(!S.rep){toast("Let the report load first");return}
+  var rows=filteredRows();
+  var q=function(s){s=String(s==null?"":s);return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s};
+  var lines=["Date,Time,Amount,Payer,QR / Account,A/c last digits,UTR / Ref,Source,Status,Matched by,Note,Notification / SMS text"].concat(rows.map(function(p){
+    return [ist(p.notif_at,{day:"2-digit",month:"2-digit",year:"numeric"}),ist(p.notif_at,{hour:"2-digit",minute:"2-digit"}),p.amount==null?"":p.amount,p.payer||"",p.qr_label,p.account_last4||"",p.utr?"'"+p.utr:"",(p.sources||[]).join("+"),p.matched_at?"Matched":"Pending",p.matched_by||"",p.match_note||"",p.sms_text||p.raw_text||""].map(q).join(",")}));
+  var csv="﻿"+lines.join("\r\n"),r=S.rep._range,name="payments_"+r.from+"_to_"+addDays(r.to,-1)+".csv";
+  if(N){N.saveFile(name,"text/csv",csv);return}
+  var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);
+};
+
+/* ---------- approved devices (owner only) ---------- */
+function loadDevices(){
+  if(!S.owner)return;
+  rpc("pa_viewers_list",{p_code:S.code}).then(function(r){
+    if(!r.ok)return;
+    $("devList").innerHTML=r.devices.length?r.devices.map(function(d){
+      return '<div class="check"><div class="ic">'+(d.approved?"✅":"⏳")+'</div><div class="tx"><b>'+esc(d.name||"Unnamed device")+'</b><div class="mute">'+esc(d.info||"")+' · added '+tDate(d.created_at)+' · last seen '+ago(d.last_seen)+'</div></div>'+
+        (d.approved?'<button class="b sm" data-dv="'+d.id+'" data-act="block">Block</button>':'<button class="b sm p" data-dv="'+d.id+'" data-act="approve">Approve</button>')+
+        ' <button class="b sm" data-dv="'+d.id+'" data-act="remove">✕</button></div>'}).join(""):'<p class="mute">No devices yet. Open the dashboard on the office computer with the view code — it will appear here for approval.</p>';
+    Array.prototype.forEach.call($("devList").querySelectorAll("button[data-dv]"),function(b){b.onclick=function(){
+      rpc("pa_viewer_set",{p_code:S.code,p_id:b.getAttribute("data-dv"),p_action:b.getAttribute("data-act")}).then(function(x){toast(x.ok?"Done":"Failed");loadDevices()})}});
+  }).catch(function(){});
+}
+
+/* ---------- debits (owner only) ---------- */
+S.dPreset="month";
+Array.prototype.forEach.call(document.querySelectorAll("#dPresets button"),function(b){
+  b.onclick=function(){S.dPreset=b.getAttribute("data-p");Array.prototype.forEach.call(document.querySelectorAll("#dPresets button"),function(x){x.classList.toggle("on",x===b)});loadDebits()};
+});
+$("dAcc").onchange=function(){loadDebits()};
+function dRange(){
+  var t=istToday(),first=t.slice(0,8)+"01";
+  if(S.dPreset==="lastmonth"){var pm=addDays(first,-1);return {from:pm.slice(0,8)+"01",to:first}}
+  if(S.dPreset==="3m"){var a=first;for(var i=0;i<2;i++)a=addDays(a,-1).slice(0,8)+"01";return {from:a,to:addDays(t,1)}}
+  if(S.dPreset==="year"){var y=+t.slice(0,4),m=+t.slice(5,7);var fy=m>=4?y:y-1;return {from:fy+"-04-01",to:addDays(t,1)}}
+  return {from:first,to:addDays(t,1)};
+}
+function loadDebits(){
+  if(!S.owner)return;
+  var r=dRange();
+  $("dTable").innerHTML='<tr><td class="empty">Loading…</td></tr>';
+  rpc("pa_out_report",{p_code:S.code,p_from:r.from+"T00:00:00+05:30",p_to:r.to+"T00:00:00+05:30",p_label:$("dAcc").value||null}).then(function(d){
+    if(!d.ok){$("dTable").innerHTML='<tr><td class="empty">Owner code needed</td></tr>';return}
+    S.deb=d;S.deb._range=r;
+    var cur=$("dAcc").value;
+    $("dAcc").innerHTML='<option value="">All accounts</option>'+(d.labels||[]).map(function(l){return '<option'+(l===cur?" selected":"")+'>'+esc(l)+'</option>'}).join("");
+    var out=0,emi=0;d.by_label.forEach(function(x){if(x.kind==="debit")out+=Number(x.total);else emi+=Number(x.total)});
+    $("dCards").innerHTML='<div class="stat total" style="background:var(--bad2)"><div class="k">Total debited · '+fmtDay(r.from)+' – '+fmtDay(addDays(r.to,-1))+'</div><div class="v" style="color:var(--bad)">'+inr(out)+'</div></div>'+
+      (emi?'<div class="stat"><div class="k">Credited to loan accounts (EMI paid)</div><div class="v">'+inr(emi)+'</div></div>':'')+
+      d.by_label.map(function(x){return '<div class="stat"><div class="k">'+esc(x.account_label)+(x.kind==="loan_credit"?" · EMI paid":" · debited")+'</div><div class="v">'+inr(x.total)+'</div><div class="s">'+x.n+' entries</div></div>'}).join("");
+    $("dTable").innerHTML=d.rows.length?'<tr><th>Date / time</th><th class="n">Amount</th><th>Account</th><th>Type</th><th>To / details</th><th>Ref</th></tr>'+d.rows.map(function(p){
+      return '<tr title="'+esc(p.sms_text||"")+'"><td>'+ist(p.notif_at,{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"})+'</td><td class="n"><b style="color:'+(p.kind==="debit"?"var(--bad)":"var(--brand)")+'">'+(p.kind==="debit"?"−":"+")+inr(p.amount)+'</b></td><td>'+esc(p.account_label)+(p.account_last4?' <span class="mute">XX'+esc(p.account_last4)+'</span>':'')+'</td><td>'+(p.kind==="debit"?"Debited":"EMI paid")+'</td><td>'+esc(p.counterparty||"")+'</td><td class="utr">'+esc(p.utr||"")+'</td></tr>'}).join(""):'<tr><td class="empty">No debits in this period</td></tr>';
+  }).catch(function(){toast("No internet")});
+}
+$("dCsv").onclick=function(){
+  if(!S.deb){toast("Let the list load first");return}
+  var q=function(s){s=String(s==null?"":s);return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s};
+  var lines=["Date,Time,Amount,Type,Account,A/c last digits,To / details,Ref,SMS text"].concat(S.deb.rows.map(function(p){
+    return [ist(p.notif_at,{day:"2-digit",month:"2-digit",year:"numeric"}),ist(p.notif_at,{hour:"2-digit",minute:"2-digit"}),p.amount,p.kind==="debit"?"Debited":"EMI paid",p.account_label,p.account_last4||"",p.counterparty||"",p.utr?"'"+p.utr:"",p.sms_text||""].map(q).join(",")}));
+  var csv="\ufeff"+lines.join("\r\n"),r=S.deb._range,name="debits_"+r.from+"_to_"+addDays(r.to,-1)+".csv";
+  if(N){N.saveFile(name,"text/csv",csv);return}
+  var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);
+};
+
+/* ---------- settings ---------- */
+$("sound").checked=store.get("sound","1")==="1";$("sound").onchange=function(){store.set("sound",this.checked?"1":"0");if(this.checked)beep()};
+$("speak").checked=store.get("speak","0")==="1";$("speak").onchange=function(){store.set("speak",this.checked?"1":"0")};
+if(!N){
+  $("nativeCollector").classList.add("hide");$("nativeAlerts").classList.add("hide");
+  if(window.speechSynthesis)$("speakRow").classList.remove("hide");
+  if(window.Notification&&Notification.permission!=="granted")$("browserNotifyRow").classList.remove("hide");
+  $("bnBtn").onclick=function(){Notification.requestPermission().then(function(p){if(p==="granted"){$("browserNotifyRow").classList.add("hide");toast("Turned on")}})};
+}
+function renderSettings(){
+  if(!N)return;
+  var c=JSON.parse(N.config());
+  $("ver").textContent="v"+c.version;
+  $("collector").checked=!!c.collector;$("alerts").checked=!!c.alerts;
+  if(document.activeElement!==$("qrLabel"))$("qrLabel").value=c.qr_label||"";
+  $("collectorBox").classList.toggle("hide",!c.collector);
+  $("srcApps").checked=c.apps!==false;$("srcSms").checked=!!c.sms;
+  $("appsBox").classList.toggle("hide",c.apps===false);$("smsBox").classList.toggle("hide",!c.sms);
+  if(c.sms&&!($("accList").contains(document.activeElement)))renderAccounts(c);
+  $("scanTxt").textContent=c.last_scan?"Last check: "+ago(new Date(c.last_scan).toISOString()):"";
+  var isPh=(c.code||"").indexOf("PH")===0;
+  var items=[
+    [isPh,"Phone code (PH…) entered",isPh?"":"A collection phone needs the phone code. Enter it with \"Change code\" below.",null],
+    c.apps!==false?[!!(c.qr_label||"").trim(),"QR name entered","Enter the QR name above",null]:null,
+    c.apps!==false?[c.listener,"Notification access","Turn on \"DA Pay Alert\" in Settings",["Allow","listener"]]:null,
+    c.sms?[c.sms_ok,"SMS permission","Needed to read bank SMS",["Allow","sms"]]:null,
+    c.sms?[Object.keys(c.accounts||{}).length>0,"Account names set","Name your accounts below",null]:null,
+    [c.battery_ok,"Excluded from battery saving","Otherwise the phone may stop the app",["Fix","battery"]],
+    [c.notify_ok,"Permission to show notifications","",["Allow","notify"]]
+  ];
+  items=items.filter(function(x){return x});
+  $("checks").innerHTML=items.map(function(x){return '<div class="check"><div class="ic">'+(x[0]?"✅":"⚠️")+'</div><div class="tx"><b>'+x[1]+'</b>'+(!x[0]&&x[2]?'<div class="mute">'+x[2]+'</div>':'')+'</div>'+(!x[0]&&x[3]?'<button class="b sm" data-act="'+x[3][1]+'">'+x[3][0]+'</button>':'')+'</div>'}).join("")+
+    '<p class="mute" style="margin:8px 0 0">Important: keep payment notifications ON in the GPay Business / PhonePe Business app. On Xiaomi/Vivo/Oppo/Realme phones also turn on "Autostart" in the app settings. <a href="#" id="appSet">Open app settings</a></p>';
+  Array.prototype.forEach.call($("checks").querySelectorAll("button[data-act]"),function(b){b.onclick=function(){var a=b.getAttribute("data-act");if(a==="listener")N.openListenerSettings();else if(a==="battery")N.openBattery();else if(a==="sms")N.askSms();else N.askNotify()}});
+  $("appSet").onclick=function(e){e.preventDefault();N.openAppSettings()};
+  $("queueTxt").textContent=(c.pending?c.pending+"  payments waiting to send · ":"All sent · ")+(c.last_error?"Error: "+c.last_error:"");
+  var log=(c.log||[]).slice().reverse();
+  $("localLog").innerHTML=log.length?log.map(function(o){return inr(o.p_amount)+" · "+esc(o.p_payer||"–")+" · "+esc(o.p_source_app)+" · "+tTime(o.p_notif_at)+" "+tDate(o.p_notif_at)}).join("<br>"):"Nothing yet";
+}
+if(N){
+  $("collector").onchange=function(){
+    if(this.checked&&S.code.indexOf("PH")!==0){toast("Enter the phone code (PH…) first");this.checked=false;return}
+    N.save(JSON.stringify({collector:this.checked,qr_label:$("qrLabel").value}));renderSettings();
+    if(this.checked)toast("On · now allow notification access");
+  };
+  $("qrLabel").onchange=function(){N.save(JSON.stringify({qr_label:this.value}));toast("Name saved");renderSettings()};
+  $("alerts").onchange=function(){N.save(JSON.stringify({alerts:this.checked}));toast(this.checked?"Ringing on":"Ringing off");setTimeout(renderSettings,600)};
+  $("flushBtn").onclick=function(){N.flush();toast("Sending…");setTimeout(renderSettings,2500)};
+  $("srcApps").onchange=function(){N.save(JSON.stringify({apps:this.checked}));renderSettings()};
+  $("srcSms").onchange=function(){N.save(JSON.stringify({sms:this.checked}));if(this.checked){var c=JSON.parse(N.config());if(!c.sms_ok)N.askSms()}renderSettings()};
+  $("accAdd").onclick=function(){var v=$("accNew").value.replace(/\D/g,"");if(v.length<3){toast("Enter at least 3 digits");return}S.accExtra=S.accExtra||{};S.accExtra[v]="";$("accNew").value="";renderAccounts(JSON.parse(N.config()))};
+  $("accSave").onclick=function(){var acc={},deb={};Array.prototype.forEach.call($("accList").querySelectorAll("input[data-l4]"),function(i){var l4=i.getAttribute("data-l4"),n=i.value.trim();if(!n)return;
+      var cin=$("accList").querySelector('input[data-in="'+l4+'"]'),cout=$("accList").querySelector('input[data-out="'+l4+'"]');
+      if(cin&&cin.checked)acc[l4]=n;if(cout&&cout.checked)deb[l4]=n});N.save(JSON.stringify({accounts:acc,debits:deb}));S.accExtra={};toast("Account names saved");renderSettings()};
+  $("rescan").onclick=function(){N.rescanSms();toast("Checking SMS…");setTimeout(renderSettings,3000)};
+  $("sBtn").onclick=function(){var r=JSON.parse(N.testSms($("sSender").value,$("sBody").value));$("sOut").innerHTML=r.debit?(r.tracked?"🔒 Debit counted: ":"Debit (account not ticked for Debits / EMI): ")+inr(r.amount)+" · account "+esc(r.account||("XX"+(r.last4||"?")))+(r.payer?" · to "+esc(r.payer):""):r.credit&&!r.tracked?"⚠ Credit, but account XX"+esc(r.last4||"?")+" is not ticked for Payments in":r.credit?"✅ Counted as credit: "+inr(r.amount)+" · account "+esc(r.account||"?")+(r.payer?" · "+esc(r.payer):"")+(r.utr?" · UTR "+esc(r.utr):""):"❌ Not a credit ("+esc(r.reason||"")+")"};
+  $("tBtn").onclick=function(){var r=JSON.parse(N.test($("tTitle").value,$("tText").value));$("tOut").innerHTML=r.credit?"✅ Counted as payment: "+inr(r.amount)+(r.payer?" · "+esc(r.payer):" · name not found"):"❌ Not a payment ("+esc(r.reason||"")+")"};
+  window.renderAccounts=function(c){
+    var acc=c.accounts||{},deb=c.debits||{},rows={},k;
+    for(k in acc)rows[k]={name:acc[k],in:true};
+    for(k in deb){if(!rows[k])rows[k]={name:deb[k]};rows[k].out=true}
+    try{JSON.parse(N.detectAccounts()).forEach(function(d){if(!rows[d.last4])rows[d.last4]={name:""};rows[d.last4].sender=d.sender;rows[d.last4].count=d.count})}catch(e){}
+    for(k in (S.accExtra||{}))if(!rows[k])rows[k]={name:"",in:true};
+    var keys=Object.keys(rows);
+    $("accList").innerHTML=keys.length?keys.map(function(l4){var r=rows[l4];return '<div class="acc" style="grid-template-columns:auto 1fr;border-bottom:1px solid var(--line);padding-bottom:8px"><div><b>XX'+esc(l4)+'</b>'+(r.sender?'<div class="mute" style="font-size:11.5px">'+esc(r.sender)+' · '+r.count+' SMS</div>':'')+'</div><div><input type="text" data-l4="'+esc(l4)+'" value="'+esc(r.name||"")+'" placeholder="Name, e.g. Digital Arts" maxlength="60"><div class="row" style="margin-top:6px;gap:14px"><label class="mute"><input type="checkbox" data-in="'+esc(l4)+'"'+(r.in?" checked":"")+'> Payments in</label><label class="mute"><input type="checkbox" data-out="'+esc(l4)+'"'+(r.out?" checked":"")+'> Debits / EMI 🔒</label></div></div></div>'}).join(""):'<p class="mute">'+(c.sms_ok?"No bank SMS found in the last 60 days. Add an account below using its last digits.":"First allow SMS permission.")+'</p>';
+  };
+  window.__paResume=function(){if(S.tab==="settings")renderSettings();poll()};
+}
+
+/* ---------- boot ---------- */
+var saved=store.get("code","");
+if(N){try{var nc=JSON.parse(N.config());if(nc.code)saved=nc.code;$("ver").textContent="v"+nc.version}catch(e){}}
+if(saved){S.code=saved;enter(saved)}
+else showLogin("");
+document.addEventListener("visibilitychange",function(){if(!document.hidden)poll()});
+})();
+</script>
+</body>
+</html>
