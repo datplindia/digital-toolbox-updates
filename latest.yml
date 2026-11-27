@@ -1,12 +1,11 @@
-version: 1.9.7
+version: 1.9.8
 files:
-  - url: Digital-Toolbox-Setup-1.9.7.exe
-    sha512: gqtvZ5GnkLEXJktG2rxgEKbucKTFCzwN5ZUK9ltetesL9WJsTC8H8WGSYtX0fEaDARTHduPTBCzsgsax57vNMQ==
-    size: 90733010
-path: Digital-Toolbox-Setup-1.9.7.exe
-sha512: gqtvZ5GnkLEXJktG2rxgEKbucKTFCzwN5ZUK9ltetesL9WJsTC8H8WGSYtX0fEaDARTHduPTBCzsgsax57vNMQ==
+  - url: Digital-Toolbox-Setup-1.9.8.exe
+    sha512: je/GuNLf0mLYd6VasY6wWVOZ9RNhDvt+9s8BvMuGyMxE7tSObhtuXNLR/5GwfW8yUwLEM1NQ8PP/lwZCaVqGrQ==
+    size: 90737887
+path: Digital-Toolbox-Setup-1.9.8.exe
+sha512: je/GuNLf0mLYd6VasY6wWVOZ9RNhDvt+9s8BvMuGyMxE7tSObhtuXNLR/5GwfW8yUwLEM1NQ8PP/lwZCaVqGrQ==
 releaseNotes: |
-  - Edit PDF: Flip left ↔ right and top ↕ bottom (this page, all pages or the selected item)
-  - Edit PDF: Export as PDF, JPG or PNG at any size (feet, inch, mm, cm) with ready sizes
-  - Very large PDFs from Photoshop (big CMYK pictures) now show instead of a blank page
-releaseDate: '2026-11-16T07:30:22.407Z'
+  - Very large PDFs (over 1 GB, e.g. 4–5 GB flex designs) now open: the app prepares a lighter copy for the screen
+  - Other tools show a clear message for files over 2 GB
+releaseDate: '2026-11-27T11:31:54.128Z'
